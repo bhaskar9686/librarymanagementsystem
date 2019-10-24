@@ -7,6 +7,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import org.apache.catalina.User;
+
 import com.capgemini.librarymanagementsystem.beans.Users;
 import com.capgemini.librarymanagementsystem.exceptions.CustomException;
 
@@ -33,6 +35,13 @@ public class AdminDaoImpl implements AdminDAO {
 
 	@Override
 	public Boolean deleteLibrarian(int userId) {
+		EntityManager entityManager=entityManagerFactory.createEntityManager();
+		EntityTransaction entityTransaction=entityManager.getTransaction();
+		User user = entityManager.find(User.class, userId);
+		entityTransaction.begin();
+		entityManager.remove(user);
+		entityTransaction.commit();
+		entityManager.close();
 		return null;
 	}
 
