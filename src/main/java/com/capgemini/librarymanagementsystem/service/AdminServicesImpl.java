@@ -1,6 +1,8 @@
 package com.capgemini.librarymanagementsystem.service;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,6 +17,14 @@ public class AdminServicesImpl implements AdminServices{
 
 	@Override
 	public Users addLibrarian(Users users) throws CustomException {
+		
+		Pattern pattern = Pattern.compile("\\w+\\@\\w+\\.\\w+");
+		Matcher matcher = pattern.matcher(users.getEmail());
+		Pattern pattern1 = Pattern.compile("\\w+\\@\\d+");
+		Matcher matcher1 = pattern1.matcher(users.getPassword());
+		if(matcher.matches() && matcher1.matches()){
+			return users;
+		}
 		return dao.addLibrarian(users);
 	}
 
