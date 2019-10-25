@@ -9,9 +9,9 @@ public interface AdminDAO {
 
 	public Users addLibrarian(Users users)  throws CustomException;
 	
-	public Boolean deleteLibrarian(int userId);
+	public Boolean deleteLibrarian(int id) throws CustomException;
 	
-	public List<Users> displayLibrarian();
+	public List<Users> displayLibrarian() throws CustomException;
 	
 	
 	
