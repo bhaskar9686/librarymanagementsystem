@@ -12,7 +12,7 @@ import com.capgemini.librarymanagementsystem.exceptions.CustomException;
 
 @Repository
 public class LoginDAOImpl implements LoginDAO {
-	
+
 	static final EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("LibraryPersistence");
 	static final EntityManager MANAGER = FACTORY.createEntityManager();
 	@Override

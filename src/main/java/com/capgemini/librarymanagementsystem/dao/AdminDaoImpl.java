@@ -4,29 +4,27 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
-import org.apache.catalina.User;
+import org.springframework.stereotype.Repository;
 
 import com.capgemini.librarymanagementsystem.beans.Users;
 import com.capgemini.librarymanagementsystem.exceptions.CustomException;
 
+@Repository
 public class AdminDaoImpl implements AdminDAO {
-	
-	private static EntityManagerFactory entityManagerFactory=Persistence.createEntityManagerFactory("DemoPersistence");
+
+	static final EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("LibraryPersistence");
+	static final EntityManager MANAGER = FACTORY.createEntityManager();
 
 	@Override
 	public Users addLibrarian(Users users) throws CustomException {
-		
-		
 		try {
-			EntityManager entityManager=entityManagerFactory.createEntityManager();
-			EntityTransaction entityTransaction=entityManager.getTransaction();
-			entityTransaction.begin();
-			entityManager.persist(users);
-			entityTransaction.commit();
-			entityManager.close();
+			MANAGER.getTransaction().begin();
+			MANAGER.persist(users);
+			MANAGER.getTransaction().commit(); 
+			MANAGER.close();
 		} catch (Exception e) {
 			throw new CustomException("Failed to add Librarin");
 		}
@@ -34,20 +32,31 @@ public class AdminDaoImpl implements AdminDAO {
 	}
 
 	@Override
-	public Boolean deleteLibrarian(int userId) {
-		EntityManager entityManager=entityManagerFactory.createEntityManager();
-		EntityTransaction entityTransaction=entityManager.getTransaction();
-		User user = entityManager.find(User.class, userId);
-		entityTransaction.begin();
-		entityManager.remove(user);
-		entityTransaction.commit();
-		entityManager.close();
-		return null;
+	public Boolean deleteLibrarian(int id) throws CustomException {
+		boolean isDeleted = false;
+		try {
+			Users user = MANAGER.find(Users.class, id);
+			MANAGER.getTransaction().begin();
+			MANAGER.remove(user);
+			MANAGER.getTransaction().commit();
+			MANAGER.close();
+		} catch (Exception e) {
+			throw new CustomException("Failed to Delete Librarin");
+		}
+		return isDeleted;
 	}
 
 	@Override
-	public List<Users> displayLibrarian() {
-		return null;
+	public List<Users> displayLibrarian() throws CustomException {
+
+		List<Users> userList = null;
+		try {
+			TypedQuery<Users> typedQuery = MANAGER.createQuery("FROM Users WHERE type = 'librarian'", Users.class);
+			userList = typedQuery.getResultList();
+		} catch (Exception e) {
+			throw new CustomException("No Data Found");
+		}
+		return userList;
 	}
 
 }
