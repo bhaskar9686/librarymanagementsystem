@@ -14,8 +14,8 @@ public class LoginServiceImpl implements LoginService {
 	LoginDAO dao;
 	
 	@Override
-	public Users login(int id, String password) throws CustomException {
-		return dao.login(id, password);
-	}
+	public Users login(Users users) throws CustomException {
+		return dao.login(users);
+	}// end of login()
 
 }

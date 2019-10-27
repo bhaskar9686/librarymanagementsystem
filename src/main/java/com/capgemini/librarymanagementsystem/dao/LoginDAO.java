@@ -5,5 +5,5 @@ import com.capgemini.librarymanagementsystem.exceptions.CustomException;
 
 public interface LoginDAO {
 
-	public Users login(int id, String password) throws CustomException;
+	public Users login(Users users) throws CustomException ;
 }

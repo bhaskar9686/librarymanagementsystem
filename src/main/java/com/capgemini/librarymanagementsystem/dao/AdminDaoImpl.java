@@ -1,6 +1,7 @@
 package com.capgemini.librarymanagementsystem.dao;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,49 +15,54 @@ import com.capgemini.librarymanagementsystem.exceptions.CustomException;
 
 @Repository
 public class AdminDaoImpl implements AdminDAO {
-
+	
 	static final EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("LibraryPersistence");
-	static final EntityManager MANAGER = FACTORY.createEntityManager();
-
+	
 	@Override
 	public Users addLibrarian(Users users) throws CustomException {
+		users.setType("Librarian");
+		Random random = new Random();
+		users.setId(random.nextInt(10000));
 		try {
-			MANAGER.getTransaction().begin();
-			MANAGER.persist(users);
-			MANAGER.getTransaction().commit(); 
-			MANAGER.close();
+			EntityManager manager = FACTORY.createEntityManager();
+			manager.getTransaction().begin();
+			manager.persist(users);
+			manager.getTransaction().commit();
+			manager.close();
 		} catch (Exception e) {
 			throw new CustomException("Failed to add Librarin");
 		}
 		return users;
-	}
+	}// end of addLibrarian()
 
 	@Override
 	public Boolean deleteLibrarian(int id) throws CustomException {
 		boolean isDeleted = false;
 		try {
-			Users user = MANAGER.find(Users.class, id);
-			MANAGER.getTransaction().begin();
-			MANAGER.remove(user);
-			MANAGER.getTransaction().commit();
-			MANAGER.close();
+			EntityManager manager = FACTORY.createEntityManager();
+			Users user = manager.find(Users.class, id);
+			manager.getTransaction().begin();
+			manager.remove(user);
+			manager.getTransaction().commit();
+			isDeleted = true;
+			manager.close();
 		} catch (Exception e) {
 			throw new CustomException("Failed to Delete Librarin");
 		}
 		return isDeleted;
-	}
+	}// end of deleteLibrarian()
 
 	@Override
 	public List<Users> displayLibrarian() throws CustomException {
-
 		List<Users> userList = null;
-		try {
-			TypedQuery<Users> typedQuery = MANAGER.createQuery("FROM Users WHERE type = 'librarian'", Users.class);
-			userList = typedQuery.getResultList();
+		 try {
+			 EntityManager manager = FACTORY.createEntityManager();
+			TypedQuery<Users> typedQuery = manager.createQuery("FROM Users WHERE type = 'Librarian'", Users.class);
+			 userList = typedQuery.getResultList();
 		} catch (Exception e) {
 			throw new CustomException("No Data Found");
 		}
 		return userList;
-	}
+	}// end of displayLibrarian()
 
 }

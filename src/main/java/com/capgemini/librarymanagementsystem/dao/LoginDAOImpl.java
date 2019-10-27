@@ -12,21 +12,24 @@ import com.capgemini.librarymanagementsystem.exceptions.CustomException;
 
 @Repository
 public class LoginDAOImpl implements LoginDAO {
-
+	
 	static final EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("LibraryPersistence");
-	static final EntityManager MANAGER = FACTORY.createEntityManager();
+	static int id;
+	
 	@Override
-	public Users login(int id, String password) throws CustomException {
+	public Users login(Users users) throws CustomException  {
 		Users user = null;
+		LoginDAOImpl.id = users.getId();
 		try {
-			Query query = MANAGER.createQuery("FROM Users WHERE id= :id, and password=:pswd");
-			query.setParameter("id", id);
-			query.setParameter("pswd", password);
+			EntityManager manager = FACTORY.createEntityManager();
+			Query query = manager.createQuery("FROM Users WHERE id= :id and password=:pswd");
+			query.setParameter("id", LoginDAOImpl.id);
+			query.setParameter("pswd", users.getPassword());
 			user = (Users)query.getSingleResult();
 		} catch (Exception e) {
 			throw new CustomException("Login Failed");
 		}
 		return user;
-	}
+	}// end of login()
 
 }

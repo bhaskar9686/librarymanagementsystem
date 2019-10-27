@@ -13,16 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.librarymanagementsystem.beans.Users;
 import com.capgemini.librarymanagementsystem.exceptions.CustomException;
-import com.capgemini.librarymanagementsystem.service.AdminServices;
+import com.capgemini.librarymanagementsystem.service.AdminService;
 
 @RestController
 @CrossOrigin(origins = "*",allowedHeaders = "*")
 public class AdminController {
 	@Autowired
-	AdminServices service;
+	AdminService service;
 	
 	@PostMapping("/lims/admin/create")
 	public Users addLibrarian(@RequestBody Users users) {
+		System.out.println(users);
 		try {
 			users = service.addLibrarian(users);
 		} catch (CustomException e) {
