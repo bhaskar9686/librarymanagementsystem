@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.librarymanagementsystem.beans.BooksInventory;
+import com.capgemini.librarymanagementsystem.beans.BooksTransaction;
 import com.capgemini.librarymanagementsystem.exceptions.CustomException;
 import com.capgemini.librarymanagementsystem.service.StudentService;
 
@@ -43,4 +44,15 @@ public class StudentController {
 		}
 		return isRequested;
 	}// end of requestBook()
+	
+	@GetMapping("lims/student/book/requsetStatus/{id}")
+	public List<BooksTransaction> requestStatus(@PathVariable("id") int id) {
+		List<BooksTransaction> booksTransactions = null;
+		try {
+			booksTransactions = service.requestStatus(id);
+		} catch (CustomException e) {
+			System.err.println(e.getMessage());
+		}
+		return booksTransactions;
+	}// end of requestStatus()
 }

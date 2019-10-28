@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.capgemini.librarymanagementsystem.beans.BooksInventory;
+import com.capgemini.librarymanagementsystem.beans.BooksTransaction;
 import com.capgemini.librarymanagementsystem.dao.StudentDAO;
 import com.capgemini.librarymanagementsystem.exceptions.CustomException;
 
@@ -24,5 +25,10 @@ public class StudentServiceImpl implements StudentService {
 	public Boolean requestBook(int bookId) throws CustomException {
 		return dao.requestBook(bookId);
 	}// end of requestBook() 
+
+	@Override
+	public List<BooksTransaction> requestStatus(int id) throws CustomException {
+		return dao.requestStatus(id);
+	}// end of requestStatus()
 
 }

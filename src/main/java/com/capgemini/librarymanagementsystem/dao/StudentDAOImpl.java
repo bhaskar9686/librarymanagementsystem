@@ -13,11 +13,16 @@ import org.springframework.stereotype.Repository;
 
 import com.capgemini.librarymanagementsystem.beans.BooksInventory;
 import com.capgemini.librarymanagementsystem.beans.BooksRegistration;
+import com.capgemini.librarymanagementsystem.beans.BooksTransaction;
 import com.capgemini.librarymanagementsystem.exceptions.CustomException;
 
 @Repository
 public class StudentDAOImpl implements StudentDAO {
+	
 	static final EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("LibraryPersistence");
+	
+	static int bookId;
+	static int studentId;
 	
 	@Override
 	public List<BooksInventory> searchBook(BooksInventory booksInventory) throws CustomException {
@@ -42,6 +47,8 @@ public class StudentDAOImpl implements StudentDAO {
 		booksRegistration.setRegistrationDate(new Date());
 		Random random = new Random();
 		booksRegistration.setRegistrationId(random.nextInt(10000));
+		StudentDAOImpl.bookId = booksRegistration.getBookId();
+		StudentDAOImpl.studentId = booksRegistration.getId();
 		boolean isRequested = false;
 		try {
 			EntityManager manager = FACTORY.createEntityManager();
@@ -55,5 +62,19 @@ public class StudentDAOImpl implements StudentDAO {
 		}
 		return isRequested;
 	}// end of requestBook()
+
+	@Override
+	public List<BooksTransaction> requestStatus(int id) throws CustomException {
+		List<BooksTransaction> booksTransactions = null;
+		try {
+			EntityManager manager = FACTORY.createEntityManager();
+			TypedQuery<BooksTransaction> typedQuery = manager.createQuery("FROM BooksTransaction WHERE id =:id", BooksTransaction.class);
+			typedQuery.setParameter("id", id);
+			booksTransactions = typedQuery.getResultList();
+		} catch (Exception e) {
+			throw new CustomException("Failed to fetch the requestStatus");
+		}
+		return booksTransactions;
+	}// end of requestStatus()
 
 }

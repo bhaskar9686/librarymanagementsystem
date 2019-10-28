@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.librarymanagementsystem.beans.BooksInventory;
 import com.capgemini.librarymanagementsystem.beans.BooksRegistration;
+import com.capgemini.librarymanagementsystem.beans.BooksTransaction;
 import com.capgemini.librarymanagementsystem.beans.Users;
 import com.capgemini.librarymanagementsystem.exceptions.CustomException;
 import com.capgemini.librarymanagementsystem.service.LibrarianService;
@@ -33,6 +34,28 @@ public class LibrarianController {
 		}
 		return users;
 	}// end of addStudent()
+
+	@GetMapping("/lims/librarian/getStudent/{id}")
+	public Users getStuentInfo(@PathVariable("id")int id) {
+		Users users = null;
+		try {
+			users = service.getStudentInfo(id);
+		} catch (CustomException e) {
+			System.err.println(e.getMessage());
+		}
+		return users;
+	}// end of getStudentInfo()
+
+	@DeleteMapping("/lims/librarian/deleteStudent/{id}")
+	public Boolean deleteStudent(@PathVariable("id") int id) {
+		boolean isDeleted = false;
+		try {
+			isDeleted = service.deleteStudent(id);
+		} catch (CustomException e) {
+			System.err.println(e.getMessage());
+		}
+		return isDeleted;
+	}// end of deleteStudent()
 
 	@PostMapping("/lims/librarian/create")
 	public Boolean addBooks(@RequestBody BooksInventory booksInventory) {
@@ -68,28 +91,6 @@ public class LibrarianController {
 		}
 		return bookList;
 	}// end of showAllBooks()
-	
-	@GetMapping("/lims/librarian/getStudent/{id}")
-	public Users getStuentInfo(@PathVariable("id")int id) {
-		Users users = null;
-		try {
-			users = service.getStudentInfo(id);
-		} catch (CustomException e) {
-			System.err.println(e.getMessage());
-		}
-		return users;
-	}// end of getStudentInfo()
-	
-	@DeleteMapping("/lims/librarian/deleteStudent/{id}")
-	public Boolean deleteStudent(@PathVariable("id") int id) {
-		boolean isDeleted = false;
-		try {
-			isDeleted = service.deleteStudent(id);
-		} catch (CustomException e) {
-			System.err.println(e.getMessage());
-		}
-		return isDeleted;
-	}// end of deleteStudent()
 
 	@GetMapping("/lims/librarian/viewRequest")
 	public List<BooksRegistration> viewRequests() {
@@ -101,5 +102,60 @@ public class LibrarianController {
 		}
 		return booksRegistrations;
 	}// end of viewRequest()
-}
 
+	@GetMapping("/lims/librarian/acceptRequest/{registrationId}")
+	public BooksTransaction acceptRequest(@PathVariable("registrationId") int registrationId) {
+		BooksTransaction booksTransaction = null;
+		try {
+			booksTransaction = service.acceptRequest(registrationId);
+		} catch (CustomException e) {
+			System.err.println(e.getMessage());
+		}
+		return booksTransaction;
+	}// end of acceptRequest()
+
+	@DeleteMapping("/lims/librarian/denyRequest/{registrationId}")
+	public Boolean denyRequest(@PathVariable("registrationId") int registrationId) {
+		boolean isDeny = false;
+		try {
+			isDeny = service.denyRequest(registrationId);
+		} catch (CustomException e) {
+			System.err.println(e.getMessage());
+		}
+		return isDeny;
+	}// end of acceptRequest()
+
+	@GetMapping("/lims/librarian/getIssuedInfo/{id}")
+	public BooksTransaction getIssuedBookInfo(@PathVariable("id") int id) {
+		BooksTransaction booksTransaction = null;
+		try {
+			booksTransaction = service.getIssuedBookInfo(id);
+		} catch (CustomException e) {
+			System.err.println(e.getMessage());
+		}
+		return booksTransaction;
+	}// end of getIssuedBookInfo()
+
+	@DeleteMapping("/lims/librarian/returnBook/{id}")
+	public Boolean returnBook(@PathVariable("id")int id) {
+		boolean isReturned = false;
+		try {
+			service.returnBook(id);
+			isReturned = true;
+		} catch (CustomException e) {
+			System.err.println(e.getMessage());
+		}
+		return isReturned;
+	}// end of returnBook()
+	
+	@GetMapping("/lims/librarian/getIssuedBooks")
+	public List<BooksTransaction> issuedBook() {
+		List<BooksTransaction> booksTransactions = null;
+		try {
+			booksTransactions = service.issuedBooks();
+		} catch (CustomException e) {
+			System.err.println(e.getMessage());
+		}
+		return booksTransactions;
+	}// end of issuedBook()
+}
