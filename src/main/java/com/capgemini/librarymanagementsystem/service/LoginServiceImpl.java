@@ -6,12 +6,16 @@ import org.springframework.stereotype.Service;
 import com.capgemini.librarymanagementsystem.beans.Users;
 import com.capgemini.librarymanagementsystem.dao.LoginDAO;
 import com.capgemini.librarymanagementsystem.exceptions.LibraryManagementSystemException;
+import com.capgemini.librarymanagementsystem.validation.Validation;
 
 @Service
 public class LoginServiceImpl implements LoginService {
 
 	@Autowired
 	LoginDAO dao;
+	
+	
+	Validation validate = new Validation();
 
 	@Override
 	public Users login(Users users) throws LibraryManagementSystemException {
