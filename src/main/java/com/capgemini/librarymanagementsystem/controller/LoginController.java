@@ -24,7 +24,6 @@ public class LoginController {
 		Users user = null;
 		try {
 			user = service.login(users);
-			System.out.println(user);
 			if(user!=null) {
 				response.setStatus("201");
 				response.setMessage("Success");

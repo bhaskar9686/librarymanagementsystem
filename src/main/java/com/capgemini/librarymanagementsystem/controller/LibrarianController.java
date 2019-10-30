@@ -225,6 +225,7 @@ public class LibrarianController {
 				response.setStatus("201");
 				response.setMessage("Success");
 				response.setDescription("Successfully fetched the Issued Book");
+				response.setBooksTransaction(booksTransaction);
 			} else {
 				response.setStatus("400");
 				response.setMessage("Failed");
@@ -265,6 +266,7 @@ public class LibrarianController {
 				response.setStatus("201");
 				response.setMessage("Success");
 				response.setDescription("Successfully Fetched the Issued book");
+				response.setTransactionList(booksTransactions);
 			} else {
 				response.setStatus("400");
 				response.setMessage("Failed");
