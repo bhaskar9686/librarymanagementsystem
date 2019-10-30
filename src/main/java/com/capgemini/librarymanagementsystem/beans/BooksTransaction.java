@@ -8,10 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="books_transaction")
+@Table(name = "books_transaction")
 public class BooksTransaction {
-	
-	@Id@Column
+
+	@Id
+	@Column
 	private int transactionId;
 	private int registrationId;
 	private int bookId;
@@ -81,7 +82,5 @@ public class BooksTransaction {
 		return "BooksTransaction [transactionId=" + transactionId + ", registrationId=" + registrationId
 				+ ", issueDate=" + issueDate + ", returnDate=" + returnDate + ", fine=" + fine + "]";
 	}
-	
-	
 
 }

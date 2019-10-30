@@ -6,26 +6,32 @@ import com.capgemini.librarymanagementsystem.beans.BooksInventory;
 import com.capgemini.librarymanagementsystem.beans.BooksRegistration;
 import com.capgemini.librarymanagementsystem.beans.BooksTransaction;
 import com.capgemini.librarymanagementsystem.beans.Users;
-import com.capgemini.librarymanagementsystem.exceptions.CustomException;
+import com.capgemini.librarymanagementsystem.exceptions.LibraryManagementSystemException;
 
 public interface LibrarianService {
-	
-	public Users registerStudent(Users user)throws CustomException;
-	public Users getStudentInfo(int id) throws CustomException;
-	public Boolean deleteStudent(int id) throws CustomException;
-	
-	public List<BooksRegistration> viewRequest() throws CustomException;
-	public BooksTransaction acceptRequest(int registrationId) throws CustomException;
-	public Boolean denyRequest(int registrationId) throws CustomException;
-	public BooksTransaction getIssuedBookInfo(int id) throws CustomException;
-	public Boolean returnBook(int id) throws CustomException;
-	public List<BooksTransaction> issuedBooks() throws CustomException;
-	
-	public Boolean addBooks(BooksInventory booksInventory) throws CustomException;
-	public Boolean deleteBook(int bookId) throws CustomException;
-	public List<BooksInventory> showAllBooks() throws CustomException;
-	
-	
-	
+
+	public Users registerStudent(Users user) throws LibraryManagementSystemException;
+
+	public Users getStudentInfo(int id) throws LibraryManagementSystemException;
+
+	public Boolean deleteStudent(int id) throws LibraryManagementSystemException;
+
+	public List<BooksRegistration> viewRequest() throws LibraryManagementSystemException;
+
+	public BooksTransaction acceptRequest(int registrationId) throws LibraryManagementSystemException;
+
+	public Boolean denyRequest(int registrationId) throws LibraryManagementSystemException;
+
+	public BooksTransaction getIssuedBookInfo(int id) throws LibraryManagementSystemException;
+
+	public Boolean returnBook(int id) throws LibraryManagementSystemException;
+
+	public List<BooksTransaction> issuedBooks() throws LibraryManagementSystemException;
+
+	public Boolean addBooks(BooksInventory booksInventory) throws LibraryManagementSystemException;
+
+	public Boolean deleteBook(int bookId) throws LibraryManagementSystemException;
+
+	public List<BooksInventory> showAllBooks() throws LibraryManagementSystemException;
 
 }

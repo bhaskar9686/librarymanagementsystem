@@ -2,22 +2,24 @@ package com.capgemini.librarymanagementsystem.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
 import com.capgemini.librarymanagementsystem.beans.Users;
-import com.capgemini.librarymanagementsystem.exceptions.CustomException;
+import com.capgemini.librarymanagementsystem.exceptions.LibraryManagementSystemException;
 
 @Repository
 public class LoginDAOImpl implements LoginDAO {
 	
-	static final EntityManagerFactory FACTORY = Persistence.createEntityManagerFactory("LibraryPersistence");
+	@PersistenceUnit
+	private EntityManagerFactory FACTORY ;
+	
 	static int id;
 	
 	@Override
-	public Users login(Users users) throws CustomException  {
+	public Users login(Users users) throws LibraryManagementSystemException  {
 		Users user = null;
 		LoginDAOImpl.id = users.getId();
 		try {
@@ -27,7 +29,7 @@ public class LoginDAOImpl implements LoginDAO {
 			query.setParameter("pswd", users.getPassword());
 			user = (Users)query.getSingleResult();
 		} catch (Exception e) {
-			throw new CustomException("Login Failed");
+			throw new LibraryManagementSystemException("Login Failed");
 		}
 		return user;
 	}// end of login()

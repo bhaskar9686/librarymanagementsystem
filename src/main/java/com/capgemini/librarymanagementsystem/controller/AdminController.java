@@ -12,47 +12,80 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.librarymanagementsystem.beans.Users;
-import com.capgemini.librarymanagementsystem.exceptions.CustomException;
+import com.capgemini.librarymanagementsystem.exceptions.LibraryManagementSystemException;
+import com.capgemini.librarymanagementsystem.response.UsersResponse;
 import com.capgemini.librarymanagementsystem.service.AdminService;
 
 @RestController
-@CrossOrigin(origins = "*",allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AdminController {
 	@Autowired
-	AdminService service;
-	
+	private AdminService service;
+
 	@PostMapping("/lims/admin/create")
-	public Users addLibrarian(@RequestBody Users users) {
-		System.out.println(users);
+	public UsersResponse addLibrarian(@RequestBody Users users) {
+		UsersResponse response = new UsersResponse();
 		try {
 			users = service.addLibrarian(users);
-		} catch (CustomException e) {
+			if(users!=null) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("User Added Successfully");
+				response.setUsers(users);
+			} else
+			{
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to Add User");
+			}
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return users;
+		return response;
 	}// end of addLibrarian()
-	
+
 	@DeleteMapping("lims/admin/deleteLibrarian/{id}")
-	public Boolean deleteLibrarian(@PathVariable ("id") int id) {
-		boolean isDeleted = false;
+	public UsersResponse deleteLibrarian(@PathVariable("id") int id) {
+		UsersResponse response = new UsersResponse();
 		try {
-			isDeleted = service.deleteLibrarian(id);
-		} catch (CustomException e) {
+			if(service.deleteLibrarian(id)) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("User Deleted Successfully");
+			} else
+			{
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to Delete User");
+			}
+			
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return isDeleted;
+		return response;
 	}// end of deleteLibrarian()
-	
+
 	@GetMapping("lims/admin/displayLibrarian")
-	public List<Users> displayeLibrarian(){
+	public UsersResponse displayeLibrarian() {
+		UsersResponse response = new UsersResponse();
 		List<Users> usersList = null;
 		try {
 			usersList = service.displayLibrarian();
-		} catch (CustomException e) {
+			if(usersList!=null) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("User Details Fetched Successfully");
+				response.setUserList(usersList);
+			} else
+			{
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to fetch the User Details");
+			}
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return usersList;
+		return response;
 	}// end of displayeLibrarian()
-	
-}
 
+}

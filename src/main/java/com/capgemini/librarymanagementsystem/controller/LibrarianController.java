@@ -15,7 +15,11 @@ import com.capgemini.librarymanagementsystem.beans.BooksInventory;
 import com.capgemini.librarymanagementsystem.beans.BooksRegistration;
 import com.capgemini.librarymanagementsystem.beans.BooksTransaction;
 import com.capgemini.librarymanagementsystem.beans.Users;
-import com.capgemini.librarymanagementsystem.exceptions.CustomException;
+import com.capgemini.librarymanagementsystem.exceptions.LibraryManagementSystemException;
+import com.capgemini.librarymanagementsystem.response.BookResponse;
+import com.capgemini.librarymanagementsystem.response.BooksRegistrationResponse;
+import com.capgemini.librarymanagementsystem.response.BooksTransactionResponse;
+import com.capgemini.librarymanagementsystem.response.UsersResponse;
 import com.capgemini.librarymanagementsystem.service.LibrarianService;
 
 @RestController
@@ -23,139 +27,252 @@ import com.capgemini.librarymanagementsystem.service.LibrarianService;
 public class LibrarianController {
 
 	@Autowired
-	LibrarianService service;
+	private LibrarianService service;
 
 	@PostMapping("/lims/librarian/user")
-	public Users addStudent(@RequestBody Users users) {
+	public UsersResponse addStudent(@RequestBody Users users) {
+		UsersResponse response = new UsersResponse();
 		try {
 			users = service.registerStudent(users);
-		} catch (CustomException e) {
+			if (users != null) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("Student Added Successfully");
+				response.setUsers(users);
+			} else {
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to Add Student");
+			}
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return users;
+		return response;
 	}// end of addStudent()
 
 	@GetMapping("/lims/librarian/getStudent/{id}")
-	public Users getStuentInfo(@PathVariable("id")int id) {
+	public UsersResponse getStuentInfo(@PathVariable("id") int id) {
 		Users users = null;
+		UsersResponse response = new UsersResponse();
 		try {
 			users = service.getStudentInfo(id);
-		} catch (CustomException e) {
+			if (users != null) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("Student Data Fetched Successfully");
+				response.setUsers(users);
+			} else {
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to Fetch the Data Student");
+			}
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return users;
+		return response;
 	}// end of getStudentInfo()
 
 	@DeleteMapping("/lims/librarian/deleteStudent/{id}")
-	public Boolean deleteStudent(@PathVariable("id") int id) {
-		boolean isDeleted = false;
+	public UsersResponse deleteStudent(@PathVariable("id") int id) {
+		UsersResponse response = new UsersResponse();
 		try {
-			isDeleted = service.deleteStudent(id);
-		} catch (CustomException e) {
+			if (service.deleteStudent(id)) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("User Deleted Successfully");
+			} else {
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to Delete User");
+			}
+
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return isDeleted;
+		return response;
 	}// end of deleteStudent()
 
 	@PostMapping("/lims/librarian/create")
-	public Boolean addBooks(@RequestBody BooksInventory booksInventory) {
-		boolean isAdded = false;
+	public BookResponse addBooks(@RequestBody BooksInventory booksInventory) {
+		BookResponse response = new BookResponse();
 		try {
-			service.addBooks(booksInventory);
-			isAdded = true;
-		} catch (CustomException e) {
+			if (service.addBooks(booksInventory)) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("Book Added Successfully");
+			} else {
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to Add Book");
+			}
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return isAdded;
+		return response;
 	}// end of addBooks()
 
 	@DeleteMapping("/lims/librarian/{bookId}")
-	public Boolean deleteBook(@PathVariable("bookId") int bookId) {
-		boolean isDeleted = false;
+	public BookResponse deleteBook(@PathVariable("bookId") int bookId) {
+		BookResponse response = new BookResponse();
 		try {
-			service.deleteBook(bookId);
-			isDeleted = true;
-		} catch (CustomException e) {
+			if (service.deleteBook(bookId)) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("Book Deleted Successfully");
+			} else {
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to Delete Book");
+			}
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return isDeleted;
+		return response;
 	}// end of deleteBook()
 
 	@GetMapping("/lims/librarian/getBooks")
-	public List<BooksInventory> showAllBook() {
+	public BookResponse showAllBook() {
 		List<BooksInventory> bookList = null;
+		BookResponse response = new BookResponse();
 		try {
 			bookList = service.showAllBooks();
-		} catch (CustomException e) {
+			if (bookList != null) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("Book Fetched Successfully");
+				response.setBookList(bookList);
+			} else {
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to Fetch Book");
+			}
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return bookList;
+		return response;
 	}// end of showAllBooks()
 
 	@GetMapping("/lims/librarian/viewRequest")
-	public List<BooksRegistration> viewRequests() {
+	public BooksRegistrationResponse viewRequests() {
 		List<BooksRegistration> booksRegistrations = null;
+		BooksRegistrationResponse response = new BooksRegistrationResponse();
 		try {
 			booksRegistrations = service.viewRequest();
-		} catch (CustomException e) {
+			if (booksRegistrations != null) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("Request Viewed Successfully");
+				response.setBookList(booksRegistrations);
+			} else {
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to view Request");
+			}
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return booksRegistrations;
+		return response;
 	}// end of viewRequest()
 
 	@GetMapping("/lims/librarian/acceptRequest/{registrationId}")
-	public BooksTransaction acceptRequest(@PathVariable("registrationId") int registrationId) {
+	public BooksTransactionResponse acceptRequest(@PathVariable("registrationId") int registrationId) {
 		BooksTransaction booksTransaction = null;
+		BooksTransactionResponse response = new BooksTransactionResponse();
 		try {
 			booksTransaction = service.acceptRequest(registrationId);
-		} catch (CustomException e) {
+			if (booksTransaction != null) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("Request Accepted Successfully");
+				response.setBooksTransaction(booksTransaction);
+			} else {
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to accept Request");
+			}
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return booksTransaction;
+		return response;
 	}// end of acceptRequest()
 
 	@DeleteMapping("/lims/librarian/denyRequest/{registrationId}")
-	public Boolean denyRequest(@PathVariable("registrationId") int registrationId) {
-		boolean isDeny = false;
+	public BooksTransactionResponse denyRequest(@PathVariable("registrationId") int registrationId) {
+		BooksTransactionResponse response = new BooksTransactionResponse();
 		try {
-			isDeny = service.denyRequest(registrationId);
-		} catch (CustomException e) {
+			if (service.denyRequest(registrationId)) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("Request Denyed Successfully");
+			} else {
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to deny Request");
+			}
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return isDeny;
+		return response;
 	}// end of acceptRequest()
 
 	@GetMapping("/lims/librarian/getIssuedInfo/{id}")
-	public BooksTransaction getIssuedBookInfo(@PathVariable("id") int id) {
+	public BooksTransactionResponse getIssuedBookInfo(@PathVariable("id") int id) {
 		BooksTransaction booksTransaction = null;
+		BooksTransactionResponse response = new BooksTransactionResponse();
 		try {
 			booksTransaction = service.getIssuedBookInfo(id);
-		} catch (CustomException e) {
+			if (booksTransaction != null) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("Successfully fetched the Issued Book");
+			} else {
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to fetch the Issued book");
+			}
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return booksTransaction;
+		return response;
 	}// end of getIssuedBookInfo()
 
 	@DeleteMapping("/lims/librarian/returnBook/{id}")
-	public Boolean returnBook(@PathVariable("id")int id) {
-		boolean isReturned = false;
+	public BooksTransactionResponse returnBook(@PathVariable("id") int id) {
+		BooksTransactionResponse response = new BooksTransactionResponse();
 		try {
-			service.returnBook(id);
-			isReturned = true;
-		} catch (CustomException e) {
+			if(service.returnBook(id)) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("Successfully Book Returned");
+			} else {
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to return the book");
+			}
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return isReturned;
+		return response;
 	}// end of returnBook()
-	
+
 	@GetMapping("/lims/librarian/getIssuedBooks")
-	public List<BooksTransaction> issuedBook() {
+	public BooksTransactionResponse issuedBook() {
+		BooksTransactionResponse response =new BooksTransactionResponse();
 		List<BooksTransaction> booksTransactions = null;
 		try {
 			booksTransactions = service.issuedBooks();
-		} catch (CustomException e) {
+			if(booksTransactions!=null) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("Successfully Fetched the Issued book");
+			} else {
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to fetch the Issued book");
+			}
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return booksTransactions;
+		return response;
 	}// end of issuedBook()
 }

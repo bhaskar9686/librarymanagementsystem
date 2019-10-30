@@ -7,25 +7,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.librarymanagementsystem.beans.Users;
-import com.capgemini.librarymanagementsystem.exceptions.CustomException;
+import com.capgemini.librarymanagementsystem.exceptions.LibraryManagementSystemException;
+import com.capgemini.librarymanagementsystem.response.UsersResponse;
 import com.capgemini.librarymanagementsystem.service.LoginService;
 
 @RestController
-@CrossOrigin(origins="*", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class LoginController {
-	
+
 	@Autowired
-	LoginService service;
-	
+	private LoginService service;
+
 	@PostMapping("/lims/login/")
-	public Users login(@RequestBody Users users) {
-		 Users user = null;
+	public UsersResponse login(@RequestBody Users users) {
+		UsersResponse response = new UsersResponse();
+		Users user = null;
 		try {
 			user = service.login(users);
-		} catch (CustomException e) {
+			System.out.println(user);
+			if(user!=null) {
+				response.setStatus("201");
+				response.setMessage("Success");
+				response.setDescription("User Login Successfull");
+				response.setUsers(user);
+			} else
+			{
+				response.setStatus("400");
+				response.setMessage("Failed");
+				response.setDescription("Failed to Login");
+			}
+		} catch (LibraryManagementSystemException e) {
 			System.err.println(e.getMessage());
 		}
-		return user;
+		return response;
 	}// end of login()
 
 }
