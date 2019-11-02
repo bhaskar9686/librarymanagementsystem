@@ -5,15 +5,10 @@ package com.capgemini.librarymanagementsystem;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.capgemini.librarymanagementsystem.beans.BooksInventory;
@@ -22,9 +17,7 @@ import com.capgemini.librarymanagementsystem.beans.BooksTransaction;
 import com.capgemini.librarymanagementsystem.beans.Users;
 import com.capgemini.librarymanagementsystem.dao.AdminDAO;
 import com.capgemini.librarymanagementsystem.dao.LibrarianDAO;
-import com.capgemini.librarymanagementsystem.dao.LibrarianDAOImpl;
 import com.capgemini.librarymanagementsystem.dao.LoginDAO;
-import com.capgemini.librarymanagementsystem.dao.LoginDAOImpl;
 import com.capgemini.librarymanagementsystem.dao.StudentDAO;
 import com.capgemini.librarymanagementsystem.exceptions.LibraryManagementSystemException;
 
@@ -228,13 +221,6 @@ public class LibraryManagementTest {
 		}
 		assertNotNull(books);
 	}
-
-	//	@Test
-	//	void testSearchBooks() {
-	//		List<BooksInventory> books= null;
-	//		books = student.searchBook(booksInventory);
-	//		assertNotNull(books);
-	//	}
 
 }
 

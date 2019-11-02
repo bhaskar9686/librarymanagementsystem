@@ -1,7 +1,5 @@
 package com.capgemini.librarymanagementsystem.dao;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import com.capgemini.librarymanagementsystem.beans.BooksInventory;
@@ -35,9 +33,5 @@ public interface LibrarianDAO {
 	public Boolean deleteBook(int bookId) throws LibraryManagementSystemException;
 
 	public List<BooksInventory> showAllBooks() throws LibraryManagementSystemException;
-
-	public BooksTransaction generateFine(String registrationid, Date returndate);
-
-	BooksTransaction generateFine(String registrationid, LocalDate returndate);
 
 }

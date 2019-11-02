@@ -1,7 +1,6 @@
 package com.capgemini.librarymanagementsystem.dao;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -22,8 +21,8 @@ import com.capgemini.librarymanagementsystem.exceptions.LibraryManagementSystemE
 public class LibrarianDAOImpl implements LibrarianDAO {
 
 	@PersistenceUnit
-	private EntityManagerFactory FACTORY ;
-	
+	private EntityManagerFactory FACTORY;
+
 	@Override
 	public Users registerStudent(Users user) throws LibraryManagementSystemException {
 		user.setType("Student");
@@ -78,9 +77,10 @@ public class LibrarianDAOImpl implements LibrarianDAO {
 		List<BooksRegistration> booksRegistrations = null;
 		try {
 			EntityManager manager = FACTORY.createEntityManager();
-			TypedQuery<BooksRegistration> typedQuery = manager.createQuery("FROM BooksRegistration", BooksRegistration.class);
-			 booksRegistrations = typedQuery.getResultList();
-			 manager.close();
+			TypedQuery<BooksRegistration> typedQuery = manager.createQuery("FROM BooksRegistration",
+					BooksRegistration.class);
+			booksRegistrations = typedQuery.getResultList();
+			manager.close();
 		} catch (Exception e) {
 			throw new LibraryManagementSystemException("Failed to Fetch the Requests");
 		}
@@ -93,14 +93,14 @@ public class LibrarianDAOImpl implements LibrarianDAO {
 		Random random = new Random();
 		LocalDate issueDate = LocalDate.now();
 		LocalDate returnDate = issueDate.plusDays(14);
-		
+
 		booksTransaction.setTransactionId(random.nextInt(10000));
 		booksTransaction.setIssueDate(issueDate);
 		booksTransaction.setRegistrationId(registrationId);
 		booksTransaction.setReturnDate(returnDate);
 		booksTransaction.setBookId(StudentDAOImpl.bookId);
 		booksTransaction.setId(StudentDAOImpl.studentId);
-		
+
 		try {
 			EntityManager manager = FACTORY.createEntityManager();
 			manager.getTransaction().begin();
@@ -137,7 +137,8 @@ public class LibrarianDAOImpl implements LibrarianDAO {
 		try {
 			EntityManager manager = FACTORY.createEntityManager();
 			manager.getTransaction().begin();
-			TypedQuery<BooksTransaction> typedQuery = manager.createQuery("FROM BooksTransaction WHERE id = :id", BooksTransaction.class);
+			TypedQuery<BooksTransaction> typedQuery = manager.createQuery("FROM BooksTransaction WHERE id = :id",
+					BooksTransaction.class);
 			typedQuery.setParameter("id", id);
 			booksTransaction = typedQuery.getSingleResult();
 			manager.remove(booksTransaction);
@@ -156,7 +157,8 @@ public class LibrarianDAOImpl implements LibrarianDAO {
 		try {
 			EntityManager manager = FACTORY.createEntityManager();
 			manager.getTransaction().begin();
-			TypedQuery<BooksTransaction> typedQuery = manager.createQuery("FROM BooksTransaction WHERE id = :id", BooksTransaction.class);
+			TypedQuery<BooksTransaction> typedQuery = manager.createQuery("FROM BooksTransaction WHERE id = :id",
+					BooksTransaction.class);
 			typedQuery.setParameter("id", id);
 			booksTransaction = typedQuery.getSingleResult();
 			manager.getTransaction().commit();
@@ -172,14 +174,15 @@ public class LibrarianDAOImpl implements LibrarianDAO {
 		List<BooksTransaction> booksTransactions = null;
 		try {
 			EntityManager manager = FACTORY.createEntityManager();
-			TypedQuery<BooksTransaction> typedQuery = manager.createQuery("FROM BooksTransaction", BooksTransaction.class);
+			TypedQuery<BooksTransaction> typedQuery = manager.createQuery("FROM BooksTransaction",
+					BooksTransaction.class);
 			booksTransactions = typedQuery.getResultList();
 		} catch (Exception e) {
 			throw new LibraryManagementSystemException("Failed to fetch the issued Books");
 		}
 		return booksTransactions;
 	}// end of issuedBook()
-	
+
 	@Override
 	public Boolean addBooks(BooksInventory booksInventory) throws LibraryManagementSystemException {
 		boolean isAdded = false;
@@ -197,7 +200,7 @@ public class LibrarianDAOImpl implements LibrarianDAO {
 		}
 		return isAdded;
 	}// end of addBooks()
-	
+
 	@Override
 	public Boolean deleteBook(int bookId) throws LibraryManagementSystemException {
 		boolean isDeleted = false;
@@ -214,7 +217,7 @@ public class LibrarianDAOImpl implements LibrarianDAO {
 		}
 		return isDeleted;
 	}// end of deleteBook()
-	
+
 	@Override
 	public List<BooksInventory> showAllBooks() throws LibraryManagementSystemException {
 		List<BooksInventory> booksInventories = null;
@@ -228,52 +231,4 @@ public class LibrarianDAOImpl implements LibrarianDAO {
 		return booksInventories;
 	}// end of showAllBook()
 
-	@Override
-	public BooksTransaction generateFine(String registrationid, LocalDate returndate) {
-//
-//		BooksTransaction booksTransaction=null;
-//		try {
-//		EntityManager entityManager=FACTORY.createEntityManager();
-//		EntityTransaction transaction=entityManager.getTransaction();
-//		transaction.begin();
-//		
-//		TypedQuery<BooksTransaction> typedQuery = entityManager.createQuery("from BooksTransaction where registrationid=:registrationid", BooksTransaction.class);;
-//		typedQuery.setParameter("registrationid",registrationid);
-//		booksTransaction=(BooksTransaction) typedQuery.getSingleResult();
-//		 System.out.println("hsgfu");
-//		LocalDate rtn=booksTransaction.getReturnDate();
-//		
-//		Transaction bookPresent=entityManager.find(Transaction.class,booksTransaction.getTransactionId());
-//		LocalDate date = LocalDate.now();
-//		int days= dat
-//		if((days-15)>0) {
-//			bookPresent.setFine((days-15)*1.0);
-//		}else {
-//			bookPresent.setFine(book.getFine());
-//		}
-//		bookPresent.setIssuedate(book.getIssuedate());
-//		bookPresent.setRegistrationid(book.getRegistrationid());
-//		bookPresent.setReturndate(returndate);
-//		bookPresent.setTransactionid(book.getTransactionid());
-//
-//		transaction.commit();
-//		System.out.println(bookPresent.getFine());
-//
-//		}
-//		catch (Exception e) {
-//		}
-//		return book;
-		
-		return null;
-	}
-
-	@Override
-	public BooksTransaction generateFine(String registrationid, Date returndate) {
-
-		
-		
-		return null;
-	}
-	
-	
 }
