@@ -5,6 +5,14 @@ import java.util.List;
 import com.capgemini.librarymanagementsystem.beans.Users;
 import com.capgemini.librarymanagementsystem.exceptions.LibraryManagementSystemException;
 
+
+/*
+ * 
+ * author Bhaskar VA 
+ * 
+ */
+
+
 public interface AdminDAO {
 
 	public Users addLibrarian(Users users) throws LibraryManagementSystemException;

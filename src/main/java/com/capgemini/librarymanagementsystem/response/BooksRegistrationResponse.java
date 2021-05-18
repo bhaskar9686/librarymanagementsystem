@@ -4,6 +4,15 @@ import java.util.List;
 
 import com.capgemini.librarymanagementsystem.beans.BooksRegistration;
 
+
+
+/*
+ * 
+ * author Bhaskar VA 
+ * 
+ */
+
+
 public class BooksRegistrationResponse {
 	private String status;
 	private String message;

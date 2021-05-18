@@ -5,6 +5,15 @@ import java.util.List;
 import com.capgemini.librarymanagementsystem.beans.Users;
 import com.capgemini.librarymanagementsystem.exceptions.LibraryManagementSystemException;
 
+
+/*
+ * 
+ * author Bhaskar VA 
+ * 
+ */
+
+
+
 public interface AdminService {
 
 	public Users addLibrarian(Users users) throws LibraryManagementSystemException;

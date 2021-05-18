@@ -8,6 +8,14 @@ import com.capgemini.librarymanagementsystem.beans.BooksTransaction;
 import com.capgemini.librarymanagementsystem.beans.Users;
 import com.capgemini.librarymanagementsystem.exceptions.LibraryManagementSystemException;
 
+
+/*
+ * 
+ * author Bhaskar VA 
+ * 
+ */
+
+
 public interface LibrarianDAO {
 
 	public Users registerStudent(Users user) throws LibraryManagementSystemException;

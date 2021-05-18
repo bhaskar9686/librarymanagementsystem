@@ -10,6 +10,14 @@ import com.capgemini.librarymanagementsystem.beans.BooksTransaction;
 import com.capgemini.librarymanagementsystem.dao.StudentDAO;
 import com.capgemini.librarymanagementsystem.exceptions.LibraryManagementSystemException;
 
+
+/*
+ * 
+ * author Bhaskar VA 
+ * 
+ */
+
+
 @Service
 public class StudentServiceImpl implements StudentService {
 

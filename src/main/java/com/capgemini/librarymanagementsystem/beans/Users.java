@@ -5,6 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 // Users Class contains information about users
+
+/*
+ * 
+ * author Bhaskar VA 
+ * 
+ */
+
+
 @Entity
 @Table(name = "users_info")
 public class Users {
