@@ -4,6 +4,15 @@ import java.util.List;
 
 import com.capgemini.librarymanagementsystem.beans.BooksInventory;
 
+
+
+/*
+ * 
+ * author Bhaskar VA 
+ * 
+ */
+
+
 public class BookResponse {
 
 	private String status;

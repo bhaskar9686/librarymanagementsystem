@@ -10,6 +10,15 @@ import org.springframework.stereotype.Repository;
 import com.capgemini.librarymanagementsystem.beans.Users;
 import com.capgemini.librarymanagementsystem.exceptions.LibraryManagementSystemException;
 
+
+
+/*
+ * 
+ * author Bhaskar VA 
+ * 
+ */
+
+
 @Repository
 public class LoginDAOImpl implements LoginDAO {
 	

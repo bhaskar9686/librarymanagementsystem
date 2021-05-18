@@ -4,6 +4,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 
+
+/*
+ * 
+ * author Bhaskar VA 
+ * 
+ */
+
 @Configuration
 public class JPAConfig {
 	@Bean

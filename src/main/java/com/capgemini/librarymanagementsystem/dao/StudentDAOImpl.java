@@ -16,6 +16,15 @@ import com.capgemini.librarymanagementsystem.beans.BooksRegistration;
 import com.capgemini.librarymanagementsystem.beans.BooksTransaction;
 import com.capgemini.librarymanagementsystem.exceptions.LibraryManagementSystemException;
 
+
+
+/*
+ * 
+ * author Bhaskar VA 
+ * 
+ */
+
+
 @Repository
 public class StudentDAOImpl implements StudentDAO {
 	

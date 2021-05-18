@@ -7,6 +7,15 @@ import com.capgemini.librarymanagementsystem.beans.Users;
 import com.capgemini.librarymanagementsystem.dao.LoginDAO;
 import com.capgemini.librarymanagementsystem.exceptions.LibraryManagementSystemException;
 
+
+
+/*
+ * 
+ * author Bhaskar VA 
+ * 
+ */
+
+
 @Service
 public class LoginServiceImpl implements LoginService {
 

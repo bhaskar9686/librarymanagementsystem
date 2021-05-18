@@ -7,6 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/*
+ * 
+ * author Bhaskar VA 
+ * 
+ */
+
+
 @Entity
 @Table(name = "books_transaction")
 public class BooksTransaction {
